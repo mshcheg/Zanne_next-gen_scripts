@@ -1,0 +1,51 @@
+#Variables
+reads_by_primer <- table(R1$primer, R1$sample)
+quantdata.16S <- subset(quantdata, Var1 == '16S')
+by.primer <- aggregate(cbind(sample) ~ primer, data = R1, mean, na.rm=T)
+R1 <- subset(mydata, read=='1')
+mydata <- read.csv("read_count_quality.csv", header=T)
+
+#box and wisker plot read quality
+LSU <- subset(R1, R1$primer == "LSU")
+pdf("LSU_Read_quality.pdf", height=8, width=11)
+par(las=2)
+boxplot(quality ~ sample, data = LSU, main='LSU Read Quality', range=0)
+dev.off()
+
+#barplot read number
+pdf("read_number.pdf", height=8, width=11)
+par(las=2)
+barplot(table(R1$primer, R1$sample), beside=T, col=topo.colors(3))
+legend('topright', legend=c('16S','ITS','LSU'), fill=topo.colors(3))
+dev.off()
+
+#compute average read quality by primer and sample
+average_quality <- aggregate(cbind(quality) ~ sample + primer, data = R1, mean, na.rm=T)
+
+#Correlation Coeficients and Linear Regressions 
+with(band, cor(reads, band))
+[1] 0.2971275
+with(NanoDrop, cor(reads, Nanodrop))
+[1] -0.2535499
+with(Picogreen, cor(reads, Picogreen))
+[1] 0.1243223
+lm.out.band <- lm(band$reads ~ band$band)
+lm.out.pico <- lm(Picogreen$reads ~ Picogreen$Picogreen)
+lm.out.nano <- lm(NanoDrop$reads ~ NanoDrop$Nanodrop)
+layout(matrix(c(1,2,3,4),2,2))
+with(band, plot(reads ~ band))
+abline(lm.out.band, col = "red")
+with(Picogreen, plot(reads ~ Picogreen))
+abline(lm.out.pico, col = "red")
+with(NanoDrop, plot(reads ~ Nanodrop))
+abline(lm.out.nano, col = "red")
+
+#Plot Nanodrop vs Picogreen concentrations
+with(SixTeenS_data, plot(Nanodrop, Picogreen))
+
+#box and wisker plot of read number by PCR success 
+with(band, boxplot(reads ~ band, xaxt='n', ylab = "number of PE reads"))
+axis(1, at=c(1,2), labels=c('no band', 'band'))
+by.band <- aggregate(cbind(reads) ~ band, data = bands_all, mean, na.rm=T)
+
+
