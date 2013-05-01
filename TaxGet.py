@@ -1,9 +1,14 @@
 ''' 
+
 Extract a subset of the nt database for a certain taxon using its ncbi taxonomy id.
 
 For example to extract all fungal sequences from nt run:
 
 python TaxGet.py 4751 
+
+To extract sequences for a list of taonomy id's use:
+
+numbers=(id1 id2 id3 ...); for i in "${numbers[@]}"; do python TaxGet.py $i; done &
 
 '''
 
