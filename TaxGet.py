@@ -50,7 +50,7 @@ except IOError:
     call(['wget',url2])
 
 #create a trie object associating gi's to taxid's
-print "\nAssiciating Gi's and Taxonomy id's in memory. This may take a while."
+print "\nAssociating Gi's and Taxonomy id's in memory. This may take a while."
 with gzip.open(IDtoGI, 'rb') as inFile:
     IdGi = hat_trie.Trie()
     i = 0
