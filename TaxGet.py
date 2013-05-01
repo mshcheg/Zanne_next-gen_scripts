@@ -16,7 +16,7 @@ from Bio import Entrez
 import datetime
 
 #get the taxonomy ids
-Entrez.email = "mshcheg@gwu.edu"
+Entrez.email = "youremail@email.com"
 if not Entrez.email:
     print "you must add your email address"
     sys.exit(2)
