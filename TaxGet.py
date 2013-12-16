@@ -12,7 +12,7 @@ numbers=(id1 id2 id3 ...); for i in "${numbers[@]}"; do python TaxGet.py $i; don
 
 '''
 
-import hat_trie
+import hat_trie #from https://github.com/kmike/hat-trie
 import sys
 import gzip
 import urllib
