@@ -1,13 +1,18 @@
 ''' 
+
 Extract a subset of the nt database for a certain taxon using its ncbi taxonomy id.
 
 For example to extract all fungal sequences from nt run:
 
 python TaxGet.py 4751 
 
+To extract sequences for a list of taonomy id's use:
+
+numbers=(id1 id2 id3 ...); for i in "${numbers[@]}"; do python TaxGet.py $i; done &
+
 '''
 
-import hat_trie
+import hat_trie #from https://github.com/kmike/hat-trie
 import sys
 import gzip
 import urllib
@@ -16,7 +21,7 @@ from Bio import Entrez
 import datetime
 
 #get the taxonomy ids
-Entrez.email = "mshcheg@gwu.edu"
+Entrez.email = "youremail@email.com"
 if not Entrez.email:
     print "you must add your email address"
     sys.exit(2)
@@ -45,7 +50,7 @@ except IOError:
     call(['wget',url2])
 
 #create a trie object associating gi's to taxid's
-print "\nAssiciating Gi's and Taxonomy id's in memory. This may take a while."
+print "\nAssociating Gi's and Taxonomy id's in memory. This may take a while."
 with gzip.open(IDtoGI, 'rb') as inFile:
     IdGi = hat_trie.Trie()
     i = 0
